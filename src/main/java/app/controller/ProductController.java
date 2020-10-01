@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ProductController {
     @Autowired
@@ -21,7 +22,7 @@ public class ProductController {
     }
 
     @PostMapping("createProduct")
-    public ResponseEntity<Product> createProduct(Product product) {
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         productService.save(product);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
@@ -33,7 +34,7 @@ public class ProductController {
     }
 
     @PutMapping("updateProduct/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,@RequestBody Product product) {
         Optional<Product> optionalProduct = productService.findById(id);
         if (!optionalProduct.isPresent()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
